@@ -327,9 +327,11 @@ export default function Wizard() {
             const data = await res.json()
             setResults(data.results)
             setPhase('results')
-        } catch {
-            setError('Something went wrong. Please try again.')
+        } catch (err) {
+            console.error(err)
+            setError('Something went wrong fetching recommendations. Please try again.')
             setPhase('wizard')
+            setCurrentStep(steps.length - 1)
         }
     }
 
@@ -373,15 +375,26 @@ export default function Wizard() {
     if (phase === 'results')    return <Results results={results} answers={answers} onRestart={handleRestart} />
 
     return (
-        <WizardStep
-            step={step}
-            stepIndex={currentStep}
-            total={steps.length}
-            selected={answers[step?.id]}
-            onSelect={handleSelect}
-            onNext={handleNext}
-            onBack={handleBack}
-            answers={answers}
-        />
+        <>
+            {error && (
+                <div style={{
+                    background: '#FEF2F2', color: '#B91C1C', border: '1px solid #FECACA',
+                    borderRadius: 10, padding: '12px 16px', margin: '0 auto 16px',
+                    maxWidth: 560, fontSize: 14, textAlign: 'center'
+                }}>
+                    ⚠️ {error}
+                </div>
+            )}
+            <WizardStep
+                step={step}
+                stepIndex={currentStep}
+                total={steps.length}
+                selected={answers[step?.id]}
+                onSelect={handleSelect}
+                onNext={handleNext}
+                onBack={handleBack}
+                answers={answers}
+            />
+        </>
     )
 }
