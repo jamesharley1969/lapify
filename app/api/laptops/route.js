@@ -1,11 +1,17 @@
-import { NextResponse } from 'next/server'
-import { supabase }     from '@/lib/supabase'
+import { NextResponse }    from 'next/server'
+import { createClient }    from '@supabase/supabase-js'
 import { scoreAllLaptops } from '@/lib/scoring'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request) {
     try {
+        // Create client inside handler so env vars are available at runtime
+        const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        )
+
         const answers = await request.json()
 
         // Pull all active laptops with their retailer prices from the view
