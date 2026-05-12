@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { supabase }     from '@/lib/supabase'
 import { scoreAllLaptops } from '@/lib/scoring'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request) {
     try {
         const answers = await request.json()
