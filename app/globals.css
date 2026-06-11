@@ -617,6 +617,23 @@ main {
     transform: translateY(-1px);
 }
 
+.condition-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: rgba(255,255,255,0.25);
+    color: inherit;
+    vertical-align: middle;
+}
+
+.btn-buy.alt .condition-badge {
+    background: var(--border);
+}
+
 .btn-restart {
     background: none;
     border: 1.5px solid var(--border);

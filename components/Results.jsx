@@ -93,6 +93,8 @@ function ResultCard({ laptop, isTop, answers }) {
                         {prices.map((retailer, i) => {
                             const href = buildAwinUrl(retailer.merchant_id, retailer.affiliate_url)
                             if (!href) return null
+                            const isUsed = retailer.condition && retailer.condition !== 'new'
+                            const conditionLabel = retailer.condition === 'refurbished' ? 'Refurb' : retailer.condition === 'used' ? 'Used' : null
                             return (
                                 <a
                                     key={retailer.retailer_id ?? i}
@@ -103,6 +105,9 @@ function ResultCard({ laptop, isTop, answers }) {
                                 >
                                     {i === 0 && <ShoppingCart size={14} strokeWidth={1.5} />}
                                     {retailer.retailer} — £{Number(retailer.price).toFixed(0)}
+                                    {conditionLabel && (
+                                        <span className="condition-badge">{conditionLabel}</span>
+                                    )}
                                 </a>
                             )
                         })}
