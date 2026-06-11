@@ -36,27 +36,10 @@ function ResultCard({ laptop, isTop, answers }) {
     const why         = getWhyText(laptop, answers)
     const prices      = [...(laptop.prices ?? [])].sort((a, b) => a.price - b.price)
     const chips       = specChips(laptop)
-    const hasImage    = !!(laptop.image_url && laptop.image_url !== '#')
 
     return (
         <div className={`result-card${isTop ? ' top-pick' : ''}`}>
-            <div className={`result-card-inner${hasImage ? '' : ' no-image'}`}>
-
-                {/* Image — real product photos come via Awin feeds */}
-                {hasImage && (
-                    <div className="result-image-wrap">
-                        <img
-                            className="result-image"
-                            src={laptop.image_url}
-                            alt={laptop.name}
-                            loading="lazy"
-                            onError={(e) => {
-                                e.currentTarget.parentElement.style.display = 'none'
-                                e.currentTarget.closest('.result-card-inner')?.classList.add('no-image')
-                            }}
-                        />
-                    </div>
-                )}
+            <div className="result-card-inner no-image">
 
                 {/* Content */}
                 <div className="result-body">
