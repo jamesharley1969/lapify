@@ -6,9 +6,10 @@ import {
 } from 'lucide-react'
 import { getLowestPrice, getWhyText, answerLabels } from '@/lib/scoring'
 
-const AWIN_ID = process.env.NEXT_PUBLIC_AWIN_PUBLISHER_ID ?? 'YOUR_PUBLISHER_ID'
+const AWIN_ID = process.env.NEXT_PUBLIC_AWIN_PUBLISHER_ID ?? ''
 
 function buildAwinUrl(merchantId, destinationUrl) {
+    if (!merchantId || !destinationUrl || destinationUrl === '#') return null
     return `https://www.awin1.com/cread.php?awinmid=${merchantId}&awinaffid=${AWIN_ID}&ued=${encodeURIComponent(destinationUrl)}`
 }
 
@@ -86,18 +87,22 @@ function ResultCard({ laptop, isTop, answers }) {
                     </div>
 
                     <div className="result-buttons">
-                        {prices.map((retailer, i) => (
-                            <a
-                                key={retailer.retailer_id ?? i}
-                                href={retailer.affiliate_url || buildAwinUrl(retailer.merchant_id, '#')}
-                                className={`btn-buy${i > 0 ? ' alt' : ''}`}
-                                target="_blank"
-                                rel="noopener noreferrer sponsored"
-                            >
-                                {i === 0 && <ShoppingCart size={14} strokeWidth={1.5} />}
-                                {retailer.retailer} — £{Number(retailer.price).toFixed(0)}
-                            </a>
-                        ))}
+                        {prices.map((retailer, i) => {
+                            const href = buildAwinUrl(retailer.merchant_id, retailer.affiliate_url)
+                            if (!href) return null
+                            return (
+                                <a
+                                    key={retailer.retailer_id ?? i}
+                                    href={href}
+                                    className={`btn-buy${i > 0 ? ' alt' : ''}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer sponsored"
+                                >
+                                    {i === 0 && <ShoppingCart size={14} strokeWidth={1.5} />}
+                                    {retailer.retailer} — £{Number(retailer.price).toFixed(0)}
+                                </a>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
@@ -123,8 +128,8 @@ export default function Results({ results, answers, onRestart }) {
                     </div>
                     <div className="results-title">No laptops found yet</div>
                     <div className="results-sub">
-                        The product catalogue is still being populated from retailer feeds.
-                        Check back once Awin approvals are live!
+                        The product catalogue is still being populated.
+                        Check back shortly!
                     </div>
                     <br />
                     <button className="btn-restart" onClick={onRestart}>← Start again</button>
