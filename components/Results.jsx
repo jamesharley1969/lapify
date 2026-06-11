@@ -50,6 +50,10 @@ function ResultCard({ laptop, isTop, answers }) {
                             src={laptop.image_url}
                             alt={laptop.name}
                             loading="lazy"
+                            onError={(e) => {
+                                e.currentTarget.parentElement.style.display = 'none'
+                                e.currentTarget.closest('.result-card-inner')?.classList.add('no-image')
+                            }}
                         />
                     </div>
                 )}
