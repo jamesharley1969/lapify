@@ -10,6 +10,9 @@ const AWIN_ID = process.env.NEXT_PUBLIC_AWIN_PUBLISHER_ID ?? ''
 
 function buildAwinUrl(merchantId, destinationUrl) {
     if (!merchantId || !destinationUrl || destinationUrl === '#') return null
+    // Feed laptops already have a complete Awin tracking URL — use it directly
+    if (destinationUrl.includes('awin1.com')) return destinationUrl
+    // Seed laptops have a plain retailer URL — wrap it in a cread.php deep link
     return `https://www.awin1.com/cread.php?awinmid=${merchantId}&awinaffid=${AWIN_ID}&ued=${encodeURIComponent(destinationUrl)}`
 }
 
