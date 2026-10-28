@@ -5,6 +5,7 @@ import {
     CheckCircle, Search, ShoppingCart, Star,
 } from 'lucide-react'
 import { getLowestPrice, getWhyText, answerLabels } from '@/lib/scoring'
+import { AffiliateNote } from '@/components/Article'
 
 const AWIN_ID = process.env.NEXT_PUBLIC_AWIN_PUBLISHER_ID ?? ''
 
@@ -150,6 +151,8 @@ export default function Results({ results, answers, onRestart }) {
                         ))}
                     </div>
                 </div>
+
+                <AffiliateNote />
 
                 <div className="results-list">
                     {results.map((laptop, i) => (
